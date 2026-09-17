@@ -1,0 +1,63 @@
+body{
+    background-color: #252422;
+}
+.contenedorPrincipal{
+    background-color: #ccc5b9;
+    padding: 20px 60px;
+}
+
+.contenedorAlojamientos{
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 320px;
+    height: 250px;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    border: 3px solid #eb5e28;
+    margin: 5px;
+    padding: 0;
+    overflow: hidden;
+}
+.contenedorAlojamientos img{
+    display: block;
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.contenedorAlojamientos:hover img{
+    transform: scale(1.03);
+}
+
+.contenedorInfo{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 12px;
+}
+.contenedorInfo h5,
+.contenedorInfo p{
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.contenedorInfo h5{
+    font-size: 16px;
+}
+.contenedorInfo p{
+    font-size: 12px;
+}
+button{
+    width: 30px;
+    height: 20px;
+    border: none;
+}
+button svg{
+    fill: #ccc;
+    transition: fill .2s;
+}
+button.favorito svg{
+    fill: red;
+}
