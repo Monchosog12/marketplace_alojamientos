@@ -1,0 +1,59 @@
+<div class="filtro-sidebar">
+  <div class="filtro-header">
+    <button type="button" class="btn btn-outline-dark btn-sm d-flex align-items-center gap-2" (click)="desplegarFiltro()">
+      <i class="fa-solid fa-filter"></i>
+      <span>Filtrar</span>
+    </button>
+    @if (conteoFiltros() > 0) {
+      <button type="button" class="limpiar-btn" (click)="limpiarFiltro()">
+        Limpiar Todo
+      </button>
+    }
+  </div>
+
+  @if (mostrarContenido()) {
+
+    <div class="filtro-grupo mt-3">
+      <div class="mb-2">
+        <h3 class="mb-0">Ciudades</h3>
+      </div>
+
+      <div class="ciudades-lista mt-3">
+        @for (item of conteoCiudades(); track item.city) {
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              [checked]="filtros().selectedCities.includes(item.city)"
+              (change)="alternarCiudad(item.city)"
+            >
+            <span class="ciudad-nombre">{{ item.city }}</span>
+            <span class="ciudad-conteo">{{ item.count }}</span>
+          </label>
+        }
+      </div>
+    </div>
+
+    <div class="filtro-grupo mt-4">
+      <div class="mb-2">
+        <h3 class="mb-0">Rango de Precio</h3>
+      </div>
+
+      <div class="slider-container mt-3">
+        <input
+          type="range"
+          class="precio-slider"
+          min="0"
+          max="800000"
+          step="10000"
+          [value]="filtros().priceRange[1]"
+          (input)="actualizarPrecioMaximo($event)"
+        >
+        <div class="precio-labels">
+          <span>${{ filtros().priceRange[0] | number }}</span>
+          <span>${{ filtros().priceRange[1] | number }}</span>
+        </div>
+      </div>
+    </div>
+
+  }
+</div>
