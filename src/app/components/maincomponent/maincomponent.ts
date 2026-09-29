@@ -3,6 +3,8 @@ import { AlojamientosModel, ResenasModel } from '../../models/alojamientos.model
 import { Alojamientoservice } from '../../services/alojamientoservice';
 import { CurrencyPipe } from '@angular/common';
 import { Filtrocomponent } from '../filtrocomponent/filtrocomponent';
+import { MatDialog } from '@angular/material/dialog';
+import { Reservacomponent } from '../reservacomponent/reservacomponent';
 
 @Component({
   selector: 'app-maincomponent',
@@ -12,42 +14,24 @@ import { Filtrocomponent } from '../filtrocomponent/filtrocomponent';
   templateUrl: './maincomponent.html',
 })
 export class Maincomponent implements OnInit {
+
   alojamientoservice: Alojamientoservice = inject(Alojamientoservice);
   resenas = signal<ResenasModel[]>([]);
   alojamientos = signal<AlojamientosModel[]>([]);
   alojamientosOriginales = signal<AlojamientosModel[]>([]);
 
-  latiendo = signal<number | null>(null);
-  favoritos = signal<Set<number>>(new Set());
-
   @ViewChild(Filtrocomponent) filtroComponent!: Filtrocomponent;
+
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.loadAlojamientos();
     this.loadResenas();
-    this.loadFavoritos();
-  }
-
-  latir(id: number) {
-    this.latiendo.set(id);
-
-    this.favoritos.update((fav) => {
-      const nuevo = new Set(fav);
-      nuevo.has(id) ? nuevo.delete(id) : nuevo.add(id);
-      this.alojamientoservice.guardarFavoritos([...nuevo]);
-      return nuevo;
-    });
-  }
-
-  esFavorito(id: number) {
-    return this.favoritos().has(id);
   }
 
   loadAlojamientos(): void {
     this.alojamientoservice.getAlojamientos().subscribe({
       next: (data: AlojamientosModel[]) => {
-        // Conserva la colección completa como fuente del filtro. La lista visible
-        // se actualiza aparte cuando el componente emite los resultados filtrados.
         this.alojamientosOriginales.set(data);
         this.alojamientos.set(data);
       },
@@ -68,7 +52,7 @@ export class Maincomponent implements OnInit {
     });
   }
 
-  loadFavoritos() {
-    this.favoritos.set(new Set(this.alojamientoservice.getFavoritos()));
+  openDialog() {
+    const dialogRef = this.dialog.open(Reservacomponent);
   }
 }

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Maincomponent } from './components/maincomponent/maincomponent';
 import { Destacadoscomponent } from './components/destacadoscomponent/destacadoscomponent';
-import { Favoritoscomponent } from './components/favoritoscomponent/favoritoscomponent';
 import { Misreservascomponent } from './components/misreservascomponent/misreservascomponent';
 
 const routes: Routes = [
@@ -13,10 +12,6 @@ const routes: Routes = [
   {
     path: 'destacados',
     component: Destacadoscomponent,
-  },
-  {
-    path: 'favoritos',
-    component: Favoritoscomponent,
   },
   {
     path: 'misreservas',

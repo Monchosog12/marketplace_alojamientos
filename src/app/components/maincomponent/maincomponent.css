@@ -2,22 +2,25 @@ body{
     background-color: #252422;
 }
 .contenedorPrincipal{
-    background-color: #ccc5b9;
+    background-color: #252422;
     padding: 20px 60px;
 }
 
+.contenedorPrincipal h2,
+.textoResultados{
+    color: white;
+}
+
 .contenedorAlojamientos{
-    flex: 1 1 0;
     min-width: 0;
     max-width: 320px;
     height: 250px;
     background-color: whitesmoke;
     border-radius: 10px;
-    border: 3px solid #eb5e28;
-    margin: 5px;
-    padding: 0;
+    border: 2px solid #eb5e28;
     overflow: hidden;
 }
+
 .contenedorAlojamientos img{
     display: block;
     width: 100%;
@@ -51,13 +54,8 @@ body{
 }
 button{
     width: 30px;
-    height: 20px;
+    height: 35px;
     border: none;
+    background-color: #eb5e28;
 }
-button svg{
-    fill: #ccc;
-    transition: fill .2s;
-}
-button.favorito svg{
-    fill: red;
-}
+
