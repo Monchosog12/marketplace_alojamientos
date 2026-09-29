@@ -1,6 +1,7 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 import { provideHttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
@@ -9,19 +10,17 @@ import { Maincomponent } from './components/maincomponent/maincomponent';
 import { Footercomponent } from './components/footercomponent/footercomponent';
 import { Destacadoscomponent } from './components/destacadoscomponent/destacadoscomponent';
 import { Misreservascomponent } from './components/misreservascomponent/misreservascomponent';
-import { Favoritoscomponent } from './components/favoritoscomponent/favoritoscomponent';
+import { Reservacomponent } from './components/reservacomponent/reservacomponent';
 
 @NgModule({
-  declarations: [
-    App,
-    Navbarcomponent,
+  declarations: [App, Navbarcomponent, Destacadoscomponent, Misreservascomponent, Reservacomponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
     Maincomponent,
     Footercomponent,
-    Destacadoscomponent,
-    Misreservascomponent,
-    Favoritoscomponent,
+    MatDialogModule,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [provideBrowserGlobalErrorListeners(), provideHttpClient()],
   bootstrap: [App],
 })

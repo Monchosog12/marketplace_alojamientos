@@ -10,9 +10,9 @@
 }
 
 .filtro-sidebar {
-  width: 280px;
+  width: 100%;
   flex-shrink: 0;
-  background: rgb(255, 255, 255);
+  background: #252422;
   padding: 24px;
   border-radius: 12px;
   border: 1px solid rgb(234, 234, 234);
@@ -36,8 +36,8 @@
 }
 
 .limpiar-btn {
-  background: transparent;
-  border: 1px solid rgb(208, 208, 208);
+  background: #eb5e28;
+  border: 1px solid #eb5e28;
   padding: 6px 12px;
   font-size: 12px;
   font-weight: 500;
@@ -59,7 +59,7 @@
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 12px;
-  color: rgb(51, 51, 51);
+  color: white;
 }
 
 .slider-container {
@@ -68,7 +68,7 @@
 
 .precio-slider {
   width: 100%;
-  accent-color: rgb(17, 17, 17);
+  accent-color: white;
   cursor: pointer;
 }
 
@@ -76,13 +76,13 @@
   display: flex;
   justify-content: space-between;
   font-size: 13px;
-  color: rgb(102, 102, 102);
+  color: white;
   margin-bottom: 16px;
 }
 
 .seleccion-rapida-label {
   font-size: 12px;
-  color: rgb(102, 102, 102);
+  color: white;
   margin-bottom: 8px;
 }
 
@@ -105,9 +105,9 @@
 
 .seleccion-rapida-grid button:hover,
 .seleccion-rapida-grid button.activo {
-  background: rgb(17, 17, 17);
+  background: white;
   color: rgb(255, 255, 255);
-  border-color: rgb(17, 17, 17);
+  border-color: white;
 }
 
 .ciudades-lista {
@@ -121,7 +121,7 @@
   align-items: center;
   font-size: 13px;
   cursor: pointer;
-  color: #333;
+  color: white;
 }
 
 .checkbox-label input {
@@ -232,9 +232,7 @@
   margin: 0 0 16px 0;
   line-height: 1.4;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  overflow: hidden;
   flex-grow: 1;
 }
 
@@ -267,4 +265,9 @@
   padding: 60px;
   color: rgb(102, 102, 102);
   font-size: 15px;
+}
+.btnFiltrar{
+  border: none;
+  border-radius: 5px;
+  background-color: #eb5e28;
 }
