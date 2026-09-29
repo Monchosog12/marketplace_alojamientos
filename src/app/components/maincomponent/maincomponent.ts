@@ -1,10 +1,13 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { AlojamientosModel, ResenasModel } from '../../models/alojamientos.model';
 import { Alojamientoservice } from '../../services/alojamientoservice';
+import { CurrencyPipe } from '@angular/common';
+import { Filtrocomponent } from '../filtrocomponent/filtrocomponent';
 
 @Component({
   selector: 'app-maincomponent',
-  standalone: false,
+  standalone: true,
+  imports: [CurrencyPipe, Filtrocomponent],
   styleUrl: './maincomponent.css',
   templateUrl: './maincomponent.html',
 })
@@ -12,8 +15,12 @@ export class Maincomponent implements OnInit {
   alojamientoservice: Alojamientoservice = inject(Alojamientoservice);
   resenas = signal<ResenasModel[]>([]);
   alojamientos = signal<AlojamientosModel[]>([]);
-  grupos: AlojamientosModel[][] = [];
-  ciudad: string = '';
+  alojamientosOriginales = signal<AlojamientosModel[]>([]);
+
+  latiendo = signal<number | null>(null);
+  favoritos = signal<Set<number>>(new Set());
+
+  @ViewChild(Filtrocomponent) filtroComponent!: Filtrocomponent;
 
   ngOnInit(): void {
     this.loadAlojamientos();
@@ -21,14 +28,9 @@ export class Maincomponent implements OnInit {
     this.loadFavoritos();
   }
 
-  latiendo = signal<number | null>(null);
-  favoritos = signal<Set<number>>(new Set());
-
   latir(id: number) {
-    // Animación del corazón
     this.latiendo.set(id);
 
-    // Se alterna el favorito y se guarda en localStorage
     this.favoritos.update((fav) => {
       const nuevo = new Set(fav);
       nuevo.has(id) ? nuevo.delete(id) : nuevo.add(id);
@@ -43,8 +45,11 @@ export class Maincomponent implements OnInit {
 
   loadAlojamientos(): void {
     this.alojamientoservice.getAlojamientos().subscribe({
-      next: (alojamientos: AlojamientosModel[]) => {
-        this.alojamientos.set(alojamientos);
+      next: (data: AlojamientosModel[]) => {
+        // Conserva la colección completa como fuente del filtro. La lista visible
+        // se actualiza aparte cuando el componente emite los resultados filtrados.
+        this.alojamientosOriginales.set(data);
+        this.alojamientos.set(data);
       },
       error: (err) => {
         console.error('Error al cargar alojamientos:', err.message);

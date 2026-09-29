@@ -1,10 +1,12 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { AlojamientosModel } from '../../models/alojamientos.model';
 import { Alojamientoservice } from '../../services/alojamientoservice';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-favoritoscomponent',
-  standalone: false,
+  standalone: true,
+  imports: [CurrencyPipe],
   styleUrl: './favoritoscomponent.css',
   templateUrl: './favoritoscomponent.html',
 })

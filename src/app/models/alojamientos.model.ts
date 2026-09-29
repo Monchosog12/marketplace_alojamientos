@@ -29,3 +29,8 @@ export interface ResenasModel{
     calificacion: number;
     comentario: string;
 }
+export interface FilterState {
+  priceRange: [number, number];
+  selectedCities: string[];
+  selectedTypes: string[];
+}
