@@ -22,7 +22,7 @@ export class Maincomponent implements OnInit {
 
   @ViewChild(Filtrocomponent) filtroComponent!: Filtrocomponent;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadAlojamientos();
@@ -52,7 +52,12 @@ export class Maincomponent implements OnInit {
     });
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(Reservacomponent);
+  openDialog(alojamiento: AlojamientosModel): void {
+    this.alojamientoservice.alojamientosSeleccionados.set([alojamiento]);
+    this.dialog.open(Reservacomponent, {
+      width: '700px',
+      height: '600px',
+      autoFocus: 'dialog',
+    });
   }
 }
