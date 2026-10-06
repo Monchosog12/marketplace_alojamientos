@@ -56,8 +56,7 @@ export class Destacadoscomponent implements OnInit {
     });
   }
 
-  // Deja solo alojamientos activos con precio válido (reglas de negocio)
-  // y arma la lista de ciudades sin repetir
+
   prepararDatos(): void {
     const activos = this.alojamientos().filter((a) => a.activo && a.precioNoche > 0);
     this.activos.set(activos);
@@ -91,7 +90,7 @@ export class Destacadoscomponent implements OnInit {
     }
     this.destacados.set(filtrados);
 
-    // Muestra el botón "Limpiar filtros" solo si algún filtro cambió
+
     this.hayFiltros.set(
       this.calificacionMinima() !== CALIFICACION_INICIAL ||
         ciudad !== '' ||

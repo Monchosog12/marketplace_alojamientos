@@ -1,12 +1,10 @@
-/* Bootstrap resuelve casi todo el diseño; aquí solo el estilo propio */
-
 .contenedorDestacados {
   background-color: #252422;
   padding: 20px 60px;
   min-height: 80vh;
 }
 
-/* Botón con el color de la marca (el mismo naranja del navbar) */
+
 .btn-naranja {
   background-color: #eb5e28;
   border-color: #eb5e28;
@@ -19,7 +17,7 @@
   color: white;
 }
 
-/* Tarjeta */
+
 .tarjeta {
   background-color: whitesmoke;
   border: 2px solid #eb5e28;
@@ -37,7 +35,7 @@
   object-fit: cover;
 }
 
-/* Adaptación a pantallas pequeñas */
+
 @media (max-width: 768px) {
   .contenedorDestacados {
     padding: 20px 16px;
