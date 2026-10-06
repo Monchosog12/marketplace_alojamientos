@@ -1,0 +1,28 @@
+<div class="contenedorPrincipal">
+    @for (alojamiento of alojamientos(); track $index) {
+    <div class="contenedorSecundario">
+        <div class="contenedorImagen">
+            <span><fa-icon class="btnClose" [icon]="fax" (click)="closeReserva()"></fa-icon></span>
+            <img [src]="alojamiento.imagenPrincipal" [alt]="alojamiento.nombre">
+            <span class="etiquetaPrecio">${{ alojamiento.precioNoche }} <small>/ noche</small></span>
+        </div>
+        <div class="contenedorInfoAlojamientos">
+            <div class="encabezado">
+                <h1>{{ alojamiento.nombre }}</h1>
+                <span class="calificacion"><fa-icon [icon]="faStar"></fa-icon> {{ alojamiento.calificacion }}</span>
+            </div>
+            <p class="ubicacion">{{ alojamiento.ubicacion }}</p>
+            <h2>Descripción</h2>
+            <p class="descripcion">{{ alojamiento.descripcion }}</p>
+
+            <h2>Servicios</h2>
+            <ul class="servicios">
+                @for (servicio of alojamiento.servicios; track servicio) {
+                <li>{{ servicio }}</li>
+                }
+            </ul>
+            <button (click)="openReservar(alojamiento, $event)" type="button" class="btn btn-primary">Ir a reservar</button>
+        </div>
+    </div>
+    }
+</div>

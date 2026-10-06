@@ -5,6 +5,7 @@ import { CurrencyPipe } from '@angular/common';
 import { Filtrocomponent } from '../filtrocomponent/filtrocomponent';
 import { MatDialog } from '@angular/material/dialog';
 import { Reservacomponent } from '../reservacomponent/reservacomponent';
+import { Infoalojamientoscomponent } from '../infoalojamientoscomponent/infoalojamientoscomponent';
 
 @Component({
   selector: 'app-maincomponent',
@@ -52,10 +53,20 @@ export class Maincomponent implements OnInit {
     });
   }
 
-  openDialog(alojamiento: AlojamientosModel): void {
+  openReservar(alojamiento: AlojamientosModel, event: Event): void {
+    event.stopPropagation();
     this.alojamientoservice.alojamientosSeleccionados.set([alojamiento]);
     this.dialog.open(Reservacomponent, {
-      width: '700px',
+      width: '500px',
+      height: '600px',
+      autoFocus: 'dialog',
+    });
+  }
+  openInfo(alojamiento: AlojamientosModel, event: Event): void {
+    event.stopPropagation();
+    this.alojamientoservice.alojamientosSeleccionados.set([alojamiento]);
+    this.dialog.open(Infoalojamientoscomponent, {
+      width: '500px',
       height: '600px',
       autoFocus: 'dialog',
     });
