@@ -1,47 +1,61 @@
 <div class="contenedorPrincipal">
-    <div class="contenedorAlojamiento">
-        @for (alojamiento of alojamientosSeleccionados(); track alojamiento.id) {
-        <div>
-            <h2>{{ alojamiento.nombre }}</h2>
-            <img [src]="alojamiento.imagenPrincipal" [alt]="alojamiento.nombre">
-        </div>
-        <div>
-            <p>{{ alojamiento.tipo }} · {{ alojamiento.ubicacion }}</p>
-            <p>{{ alojamiento.precioNoche | currency:'COP':'symbol':'1.0-0' }} por noche</p>
-            <p>{{ alojamiento.capacidad }} huéspedes · {{ alojamiento.habitaciones }} habitaciones · {{
-                alojamiento.banos }} baños · {{ alojamiento.calificacion}} <fa-icon [icon]="faStar"></fa-icon></p>
-            <p>Servicios: {{ alojamiento.servicios.join(', ') }}</p>
-            <p>Descripción: {{ alojamiento.descripcion }}</p>
-        </div>
-        }
-    </div>
-    <div class="contenedorReserva">
-        <h1>Reserva</h1>
-        <form>
-            <div class="mb-3">
-                <label class="form-label">Nombre: </label>
-                <input type="text" class="form-control">
+    @for (alojamiento of alojamientosSeleccionados(); track alojamiento.id) {
+        <div class="contenedorSecundario">
+            <div class="contenedorImagen">
+                <fa-icon class="btnClose" [icon]="faX" (click)="closeReserva()"></fa-icon>
+                <img [src]="alojamiento.imagenPrincipal" [alt]="alojamiento.nombre">
+                <span class="etiquetaPrecio">${{ alojamiento.precioNoche }} <small>/ noche</small></span>
             </div>
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <mat-form-field id="inputFecha">
-                <mat-label>Enter a date range</mat-label>
-                <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                    <input matStartDate formControlName="start" placeholder="Start date">
-                    <input matEndDate formControlName="end" placeholder="End date">
-                </mat-date-range-input>
-                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
+            <div class="contenedorReserva">
+                <div class="encabezado">
+                    <h1>Reserva: {{ alojamiento.nombre }}</h1>
+                    <span class="calificacion"><fa-icon [icon]="faStar"></fa-icon> {{ alojamiento.calificacion }}</span>
+                </div>
+                <p class="ubicacion">{{ alojamiento.ubicacion }}</p>
 
-                @if (range.controls.start.hasError('matStartDateInvalid')) {
-                <mat-error>Invalid start date</mat-error>
-                }
-                @if (range.controls.end.hasError('matEndDateInvalid')) {
-                <mat-error>Invalid end date</mat-error>
-                }
-            </mat-form-field>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
+                <h2>Datos del huésped</h2>
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Nombre: </label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Correo: </label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Cedula: </label>
+                        <input type="number" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Numero de huespedes: </label>
+                        <input type="number" class="form-control">
+                    </div>
+
+                    <h2>Fechas</h2>
+                    <mat-form-field id="inputFecha">
+                        <mat-label>Enter a date range</mat-label>
+                        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                            <input matStartDate formControlName="start" placeholder="Start date">
+                            <input matEndDate formControlName="end" placeholder="End date">
+                        </mat-date-range-input>
+                        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+
+                        @if (range.controls.start.hasError('matStartDateInvalid')) {
+                        <mat-error>Invalid start date</mat-error>
+                        }
+                        @if (range.controls.end.hasError('matEndDateInvalid')) {
+                        <mat-error>Invalid end date</mat-error>
+                        }
+                    </mat-form-field>
+                    <div class="divBotones">
+                        <button type="submit" class="btn btn-primary">Confirmar Reserva</button>
+                        <button type="button" class="btn btn-secondary" (click)="openInfo(alojamiento, $event)">Detalle</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
 </div>

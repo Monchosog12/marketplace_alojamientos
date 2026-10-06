@@ -60,7 +60,7 @@
     font-weight: normal;
 }
 
-.contenedorReserva {
+.contenedorInfoAlojamientos {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -75,7 +75,7 @@
     gap: 10px;
 }
 
-.contenedorReserva h1 {
+.contenedorInfoAlojamientos h1 {
     margin: 0;
     font-size: 26px;
 }
@@ -96,8 +96,8 @@
     font-size: 14px;
 }
 
-.contenedorReserva h2 {
-    margin: 12px 0 8px;
+.contenedorInfoAlojamientos h2 {
+    margin: 12px 0 0;
     padding-bottom: 4px;
     border-bottom: 2px solid #eb5e28;
     font-size: 16px;
@@ -105,22 +105,37 @@
     letter-spacing: 0.5px;
 }
 
-.contenedorReserva form {
+.descripcion {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.servicios {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
-#inputFecha {
-    width: 100%;
+.servicios li {
+    padding: 4px 12px;
+    border: 1px solid #eb5e28;
+    border-radius: 15px;
+    color: #eb5e28;
+    font-size: 13px;
 }
 
-.divBotones {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 10px;
-}
+@media (max-width: 600px) {
+    .contenedorPrincipal {
+        padding: 20px 16px;
+    }
 
+    .contenedorInfoAlojamientos h1 {
+        font-size: 20px;
+    }
+}
 .btnClose {
     position: absolute;
     top: 15px;
@@ -141,14 +156,4 @@
 
 .btnClose:hover {
     background-color: #252422;
-}
-
-@media (max-width: 600px) {
-    .contenedorPrincipal {
-        padding: 20px 16px;
-    }
-
-    .contenedorReserva h1 {
-        font-size: 20px;
-    }
 }

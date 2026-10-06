@@ -16,9 +16,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { Infoalojamientoscomponent } from './components/infoalojamientoscomponent/infoalojamientoscomponent';
 
 @NgModule({
-  declarations: [App, Navbarcomponent, Destacadoscomponent, Misreservascomponent, Reservacomponent],
+  declarations: [
+    App,
+    Navbarcomponent,
+    Destacadoscomponent,
+    Misreservascomponent,
+    Reservacomponent,
+    Infoalojamientoscomponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -32,7 +40,11 @@ import { provideNativeDateAdapter } from '@angular/material/core';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [provideBrowserGlobalErrorListeners(), provideHttpClient(), provideNativeDateAdapter()],
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideHttpClient(),
+    provideNativeDateAdapter(),
+  ],
   bootstrap: [App],
 })
 export class AppModule {}

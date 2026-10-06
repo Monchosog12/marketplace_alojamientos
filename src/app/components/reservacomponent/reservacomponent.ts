@@ -1,8 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { Alojamientoservice } from '../../services/alojamientoservice';
 import { AlojamientosModel } from '../../models/alojamientos.model';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faX } from '@fortawesome/free-solid-svg-icons';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-reservacomponent',
@@ -14,7 +15,9 @@ export class Reservacomponent {
 
   alojamientoservice: Alojamientoservice = inject(Alojamientoservice);
   alojamientosSeleccionados = signal<AlojamientosModel[]>([]);
+  dialogRef = inject(MatDialogRef<Reservacomponent>);
   faStar = faStar;
+  faX = faX;
   readonly range = new FormGroup({
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
@@ -33,5 +36,15 @@ export class Reservacomponent {
   loadSeleccionados(): void {
     const seleccionados = this.alojamientoservice.alojamientosSeleccionados;
     this.alojamientosSeleccionados.set(seleccionados());
+  }
+
+  openInfo(alojamiento: AlojamientosModel, event: Event): void {
+    event.stopPropagation();
+    this.alojamientoservice.alojamientosSeleccionados.set([alojamiento]);
+    this.dialogRef.close();
+  }
+
+  closeReserva(): void {
+    this.dialogRef.close();
   }
 }
