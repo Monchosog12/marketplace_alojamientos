@@ -1,0 +1,45 @@
+/* Bootstrap resuelve casi todo el diseño; aquí solo el estilo propio */
+
+.contenedorDestacados {
+  background-color: #252422;
+  padding: 20px 60px;
+  min-height: 80vh;
+}
+
+/* Botón con el color de la marca (el mismo naranja del navbar) */
+.btn-naranja {
+  background-color: #eb5e28;
+  border-color: #eb5e28;
+  color: white;
+}
+
+.btn-naranja:hover {
+  background-color: #cf4f1c;
+  border-color: #cf4f1c;
+  color: white;
+}
+
+/* Tarjeta */
+.tarjeta {
+  background-color: whitesmoke;
+  border: 2px solid #eb5e28;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+}
+
+.tarjeta:hover {
+  transform: translateY(-4px);
+}
+
+.imagen {
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Adaptación a pantallas pequeñas */
+@media (max-width: 768px) {
+  .contenedorDestacados {
+    padding: 20px 16px;
+  }
+}
