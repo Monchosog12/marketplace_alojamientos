@@ -7,7 +7,7 @@ import { Reservacomponent } from '../reservacomponent/reservacomponent';
 // Valores por defecto de los filtros
 const CALIFICACION_INICIAL = 4.7;
 const HUESPEDES_INICIAL = 1;
-
+  
 @Component({
   selector: 'app-destacadoscomponent',
   standalone: false,

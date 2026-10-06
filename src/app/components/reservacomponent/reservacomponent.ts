@@ -3,7 +3,8 @@ import { Alojamientoservice } from '../../services/alojamientoservice';
 import { AlojamientosModel } from '../../models/alojamientos.model';
 import { faStar, faX } from '@fortawesome/free-solid-svg-icons';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Infoalojamientoscomponent } from '../infoalojamientoscomponent/infoalojamientoscomponent';
 
 @Component({
   selector: 'app-reservacomponent',
@@ -29,7 +30,7 @@ export class Reservacomponent {
     hora: new FormControl(''),
   });
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
     this.loadSeleccionados();
   }
 
@@ -39,10 +40,12 @@ export class Reservacomponent {
   }
 
   openInfo(alojamiento: AlojamientosModel, event: Event): void {
-    event.stopPropagation();
     this.alojamientoservice.alojamientosSeleccionados.set([alojamiento]);
-    this.dialogRef.close();
-  }
+    this.dialog.open(Infoalojamientoscomponent, {
+      width: '500px',
+      height: '600px',
+    });
+   }
 
   closeReserva(): void {
     this.dialogRef.close();
