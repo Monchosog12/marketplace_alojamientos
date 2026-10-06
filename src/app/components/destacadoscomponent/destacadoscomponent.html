@@ -1,1 +1,123 @@
-<p>destacadoscomponent works!</p>
+<div class="container-fluid contenedorDestacados">
+
+  <!-- Encabezado -->
+  <div class="mb-4 animate__animated animate__fadeInDown">
+    <h2 class="text-white mb-1">Alojamientos destacados</h2>
+    <p class="text-secondary mb-0">Los mejor calificados por nuestros huéspedes</p>
+  </div>
+
+  <!-- Filtros -->
+  <div class="card bg-dark border-0 p-3 mb-4 animate__animated animate__fadeIn">
+    <div class="row g-3 align-items-end">
+
+      <div class="col-6 col-md-3">
+        <label for="ciudad" class="form-label text-white">Ciudad</label>
+        <select id="ciudad" class="form-select" (change)="cambiarCiudad($event)">
+          <option value="" [selected]="ciudadSeleccionada() === ''">Todas</option>
+          @for (ciudad of ciudades(); track ciudad) {
+            <option [value]="ciudad" [selected]="ciudad === ciudadSeleccionada()">{{ ciudad }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="col-6 col-md-2">
+        <label for="huespedes" class="form-label text-white">Huéspedes</label>
+        <input id="huespedes" type="number" min="1" class="form-control"
+               [class.is-invalid]="huespedesInvalido()"
+               [value]="huespedes()"
+               (input)="cambiarHuespedes($event)" />
+        @if (huespedesInvalido()) {
+          <div class="invalid-feedback">Debe ser mayor que cero.</div>
+        }
+      </div>
+
+      <div class="col-6 col-md-2">
+        <label for="calificacion" class="form-label text-white">Calificación</label>
+        <select id="calificacion" class="form-select" (change)="cambiarCalificacion($event)">
+          @for (opcion of opcionesCalificacion; track opcion) {
+            <option [value]="opcion" [selected]="opcion === calificacionMinima()">{{ opcion }}+</option>
+          }
+        </select>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <label for="orden" class="form-label text-white">Ordenar por</label>
+        <select id="orden" class="form-select" (change)="cambiarOrden($event)">
+          <option value="calificacion" [selected]="orden() === 'calificacion'">Mejor calificación</option>
+          <option value="precio" [selected]="orden() === 'precio'">Menor precio</option>
+        </select>
+      </div>
+
+      <div class="col-12 col-md-2">
+        @if (hayFiltros()) {
+          <button type="button" class="btn btn-naranja w-100 animate__animated animate__fadeIn"
+                  (click)="limpiarFiltros()">
+            Limpiar filtros
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (cargando()) {
+    <!-- Estado: cargando -->
+    <div class="text-center py-5">
+      <div class="spinner-border text-warning" role="status"></div>
+      <p class="text-white mt-2">Cargando alojamientos...</p>
+    </div>
+  } @else if (errorCarga()) {
+    <!-- Estado: error -->
+    <div class="alert alert-danger">No fue posible cargar los alojamientos. Intenta nuevamente.</div>
+  } @else {
+    <!-- Listado -->
+    <p class="text-secondary">Mostrando {{ destacados().length }} de {{ activos().length }} alojamientos</p>
+
+    <div class="row">
+      @for (alojamiento of destacados(); track alojamiento.id) {
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+          <div class="card h-100 tarjeta animate__animated animate__fadeInUp"
+               [style.animation-delay]="($index * 0.15) + 's'">
+
+            <div class="position-relative">
+              <img [src]="alojamiento.imagenPrincipal" [alt]="alojamiento.nombre"
+                   class="card-img-top imagen" />
+              <span class="badge bg-dark text-warning position-absolute top-0 end-0 m-2 fs-6">
+                ★ {{ alojamiento.calificacion }}
+              </span>
+            </div>
+
+            <div class="card-body d-flex flex-column">
+              <span class="badge bg-dark align-self-start mb-2">{{ alojamiento.tipo }}</span>
+              <h5 class="card-title">{{ alojamiento.nombre }}</h5>
+              <p class="text-muted small mb-2">
+                {{ alojamiento.ciudad }} · Capacidad: {{ alojamiento.capacidad }} huéspedes
+              </p>
+
+              <div class="mb-3">
+                @for (servicio of alojamiento.servicios; track servicio) {
+                  <span class="badge rounded-pill text-bg-secondary me-1 mb-1">{{ servicio }}</span>
+                }
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-auto">
+                <span class="fw-bold fs-5">
+                  {{ alojamiento.precioNoche | currency:'COP':'symbol':'1.0-0' }}
+                  <small class="text-muted fw-normal fs-6">/ noche</small>
+                </span>
+                <button type="button" class="btn btn-naranja" (click)="reservar(alojamiento)">
+                  Reservar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <!-- Estado: sin resultados -->
+        <div class="col-12 text-center py-5 animate__animated animate__shakeX">
+          <p class="text-white fs-5">No se encontraron alojamientos con los filtros seleccionados.</p>
+          <button type="button" class="btn btn-naranja" (click)="limpiarFiltros()">Limpiar filtros</button>
+        </div>
+      }
+    </div>
+  }
+</div>
