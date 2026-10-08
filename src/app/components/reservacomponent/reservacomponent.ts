@@ -1,8 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, TemplateRef, viewChild } from '@angular/core';
 import { Alojamientoservice } from '../../services/alojamientoservice';
 import { AlojamientosModel } from '../../models/alojamientos.model';
 import { faStar, faX } from '@fortawesome/free-solid-svg-icons';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Infoalojamientoscomponent } from '../infoalojamientoscomponent/infoalojamientoscomponent';
 
@@ -19,15 +19,16 @@ export class Reservacomponent {
   dialogRef = inject(MatDialogRef<Reservacomponent>);
   faStar = faStar;
   faX = faX;
-  readonly range = new FormGroup({
-    start: new FormControl<Date | null>(null),
-    end: new FormControl<Date | null>(null),
-  });
+  dialogConfirmacion = viewChild.required<TemplateRef<any>>('dialogConfirmacion');
   readonly reservaForm = new FormGroup({
-    nombre: new FormControl(''),
-    email: new FormControl(''),
-    fecha: new FormControl(''),
-    hora: new FormControl(''),
+    nombre: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    cedula: new FormControl('', Validators.required),
+    huespedes: new FormControl<number | null>(null, [Validators.required, Validators.min(1)]),
+    fechas: new FormGroup({
+      start: new FormControl<Date | null>(null, Validators.required),
+      end: new FormControl<Date | null>(null, Validators.required),
+    }),
   });
 
   constructor(public dialog: MatDialog) {
@@ -39,15 +40,45 @@ export class Reservacomponent {
     this.alojamientosSeleccionados.set(seleccionados());
   }
 
-  openInfo(alojamiento: AlojamientosModel, event: Event): void {
+  openInfo(alojamiento: AlojamientosModel): void {
     this.alojamientoservice.alojamientosSeleccionados.set([alojamiento]);
     this.dialog.open(Infoalojamientoscomponent, {
       width: '500px',
       height: '600px',
+      autoFocus: 'dialog',
     });
-   }
+  }
 
   closeReserva(): void {
     this.dialogRef.close();
+  }
+
+  openConfirmacion(nombre: any, noches: number){
+    this.dialog.open(this.dialogConfirmacion(), { data: { nombre, noches } }).afterClosed().subscribe(() => this.closeReserva());
+  }
+
+  conteoNoches(): number{
+    const { fechas } = this.reservaForm.getRawValue();
+    if (!fechas.start || !fechas.end) {
+      return 0;
+    }
+    const noches =  Math.ceil((fechas.end.getTime() - fechas.start.getTime()) / (1000 * 60 * 60 * 24));
+    return noches;
+  }
+
+  confirmarReserva(alojamiento: AlojamientosModel) {
+    if (this.reservaForm.invalid) {
+      this.reservaForm.markAllAsTouched();
+      return;
+    }
+    this.alojamientoservice.reservar(alojamiento.id, false).subscribe({
+      next: () => {
+        this.alojamientoservice.reservas = this.alojamientoservice.reservas.filter(reserva => reserva.id !== alojamiento.id);
+        this.openConfirmacion(this.reservaForm.controls.nombre.value, this.conteoNoches());
+      },
+      error: (err) => {
+        console.error("Error: ", err);
+      },
+    });
   }
 }

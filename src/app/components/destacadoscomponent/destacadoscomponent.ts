@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AlojamientosModel } from '../../models/alojamientos.model';
 import { Alojamientoservice } from '../../services/alojamientoservice';
 import { Reservacomponent } from '../reservacomponent/reservacomponent';
+import { Infoalojamientoscomponent } from '../infoalojamientoscomponent/infoalojamientoscomponent';
 
 // Valores por defecto de los filtros
 const CALIFICACION_INICIAL = 4.7;
@@ -132,6 +133,16 @@ export class Destacadoscomponent implements OnInit {
   reservar(alojamiento: AlojamientosModel): void {
     this.alojamientoservice.alojamientosSeleccionados.set([alojamiento]);
     this.dialog.open(Reservacomponent, {
+      width: '700px',
+      height: '600px',
+      autoFocus: 'dialog',
+    });
+  }
+
+  // ---------- Detalle ----------
+  openDetalle(alojamiento: AlojamientosModel): void {
+    this.alojamientoservice.alojamientosSeleccionados.set([alojamiento]);
+    this.dialog.open(Infoalojamientoscomponent, {
       width: '700px',
       height: '600px',
       autoFocus: 'dialog',
