@@ -4,7 +4,6 @@
   min-height: 80vh;
 }
 
-
 .btn-naranja {
   background-color: #eb5e28;
   border-color: #eb5e28;
@@ -24,6 +23,7 @@
   border-radius: 10px;
   overflow: hidden;
   transition: transform 0.2s ease-in-out;
+  width: 100%;
 }
 
 .tarjeta:hover {
@@ -31,7 +31,8 @@
 }
 
 .imagen {
-  height: 180px;
+  width: 100%;
+  height: clamp(180px, 22vw, 250px);
   object-fit: cover;
 }
 

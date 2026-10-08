@@ -1,61 +1,87 @@
 <div class="contenedorPrincipal">
     @for (alojamiento of alojamientosSeleccionados(); track alojamiento.id) {
-        <div class="contenedorSecundario">
-            <div class="contenedorImagen">
-                <fa-icon class="btnClose" [icon]="faX" (click)="closeReserva()"></fa-icon>
-                <img [src]="alojamiento.imagenPrincipal" [alt]="alojamiento.nombre">
-                <span class="etiquetaPrecio">${{ alojamiento.precioNoche }} <small>/ noche</small></span>
-            </div>
-            <div class="contenedorReserva">
-                <div class="encabezado">
-                    <h1>Reserva: {{ alojamiento.nombre }}</h1>
-                    <span class="calificacion"><fa-icon [icon]="faStar"></fa-icon> {{ alojamiento.calificacion }}</span>
-                </div>
-                <p class="ubicacion">{{ alojamiento.ubicacion }}</p>
-
-                <h2>Datos del huésped</h2>
-                <form>
-                    <div class="mb-3">
-                        <label class="form-label">Nombre: </label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Correo: </label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Cedula: </label>
-                        <input type="number" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Numero de huespedes: </label>
-                        <input type="number" class="form-control">
-                    </div>
-
-                    <h2>Fechas</h2>
-                    <mat-form-field id="inputFecha">
-                        <mat-label>Enter a date range</mat-label>
-                        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                            <input matStartDate formControlName="start" placeholder="Start date">
-                            <input matEndDate formControlName="end" placeholder="End date">
-                        </mat-date-range-input>
-                        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-date-range-picker #picker></mat-date-range-picker>
-
-                        @if (range.controls.start.hasError('matStartDateInvalid')) {
-                        <mat-error>Invalid start date</mat-error>
-                        }
-                        @if (range.controls.end.hasError('matEndDateInvalid')) {
-                        <mat-error>Invalid end date</mat-error>
-                        }
-                    </mat-form-field>
-                    <div class="divBotones">
-                        <button type="submit" class="btn btn-primary">Confirmar Reserva</button>
-                        <button type="button" class="btn btn-secondary" (click)="openInfo(alojamiento, $event)">Detalle</button>
-                    </div>
-                </form>
-            </div>
+    <div class="contenedorSecundario">
+        <div class="contenedorImagen">
+            <fa-icon class="btnClose" [icon]="faX" (click)="closeReserva()"></fa-icon>
+            <img [src]="alojamiento.imagenPrincipal" [alt]="alojamiento.nombre">
+            <span class="etiquetaPrecio">{{ alojamiento.precioNoche | currency:'COP':'symbol-narrow':'1.0-0' }} <small>/
+                    noche</small></span>
         </div>
+        <div class="contenedorReserva">
+            <div class="encabezado">
+                <h1>Reserva: {{ alojamiento.nombre }}</h1>
+                <span class="calificacion"><fa-icon [icon]="faStar"></fa-icon> {{ alojamiento.calificacion }}</span>
+            </div>
+            <p class="ubicacion">{{ alojamiento.ubicacion }}</p>
+
+            <h2>Ingresa tus datos</h2>
+            <form [formGroup]="reservaForm">
+                <div class="mb-3">
+                    <input type="text" placeholder="Nombre: " class="form-control" formControlName="nombre"
+                        [class.is-invalid]="reservaForm.controls.nombre.invalid && reservaForm.controls.nombre.touched">
+                    <div class="invalid-feedback">El nombre es obligatorio</div>
+                </div>
+                <div class="mb-3">
+                    <input type="email" class="form-control" placeholder="Correo: " id="exampleInputEmail1"
+                        aria-describedby="emailHelp" formControlName="email"
+                        [class.is-invalid]="reservaForm.controls.email.invalid && reservaForm.controls.email.touched">
+                    <div class="invalid-feedback">
+                        @if (reservaForm.controls.email.hasError('email')) { Ingresa un correo válido }
+                        @else { El correo es obligatorio }
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <input type="number" class="form-control" placeholder="Cedula: " formControlName="cedula"
+                        [class.is-invalid]="reservaForm.controls.cedula.invalid && reservaForm.controls.cedula.touched">
+                    <div class="invalid-feedback">La cédula es obligatoria</div>
+                </div>
+                <div class="mb-3">
+                    <input type="number" class="form-control" placeholder="Numero de huespedes: " min="1"
+                        formControlName="huespedes"
+                        [class.is-invalid]="reservaForm.controls.huespedes.invalid && reservaForm.controls.huespedes.touched">
+                    <div class="invalid-feedback">Debe haber al menos 1 huésped</div>
+                </div>
+
+                <mat-form-field id="inputFecha" appearance="fill">
+                    <mat-label>Fecha de reserva</mat-label>
+                    <mat-date-range-input formGroupName="fechas" [rangePicker]="picker">
+                        <input matStartDate formControlName="start" placeholder="Entrada">
+                        <input matEndDate formControlName="end" placeholder="Salida">
+                    </mat-date-range-input>
+                    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+
+                    @if (reservaForm.controls.fechas.controls.start.hasError('required') ||
+                    reservaForm.controls.fechas.controls.end.hasError('required')) {
+                    <mat-error>Selecciona la fecha de entrada y de salida</mat-error>
+                    }
+                    @if (reservaForm.controls.fechas.controls.start.hasError('matStartDateInvalid')) {
+                    <mat-error>Invalid start date</mat-error>
+                    }
+                    @if (reservaForm.controls.fechas.controls.end.hasError('matEndDateInvalid')) {
+                    <mat-error>Invalid end date</mat-error>
+                    }
+                </mat-form-field>
+                @for (alojamiento of alojamientosSeleccionados(); track $index) {}
+                <div class="divBotones">
+                    <button type="button" class="btn btn-primary" (click)="confirmarReserva(alojamiento)">Confirmar
+                        Reserva</button>
+                    <button type="button" class="btn btn-secondary" (click)="openInfo(alojamiento, $event)">Detalle</button>
+                </div>
+            </form>
+        </div>
+    </div>
     }
 </div>
+<button (click)="alojamientoservice.localStorage()">localstorage</button>
+
+<ng-template #dialogConfirmacion let-data>
+    <h2 mat-dialog-title>¡Reserva confirmada!</h2>
+    <mat-dialog-content>
+        {{ data.nombre }}, tu reserva por {{ data.noches }} noches quedó registrada.
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button type="button" class="btn btn-primary" mat-dialog-close>Aceptar</button>
+    </mat-dialog-actions>
+</ng-template>

@@ -36,8 +36,6 @@ body{
 .contenedorInfo{
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    padding: 10px 12px;
 }
 .contenedorInfo h5,
 .contenedorInfo p{
@@ -59,3 +57,12 @@ button{
     background-color: #eb5e28;
 }
 
+.flex-div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+small{
+    font-size: 14px;
+    color: #aaa;
+}

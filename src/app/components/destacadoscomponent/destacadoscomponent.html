@@ -5,11 +5,10 @@
     <h2 class="text-white mb-1">Alojamientos destacados</h2>
     <p class="text-secondary mb-0">Los mejor calificados por nuestros huéspedes</p>
   </div>
-
+  
   <!-- Filtros -->
   <div class="card bg-dark border-0 p-3 mb-4 animate__animated animate__fadeIn">
     <div class="row g-3 align-items-end">
-
       <div class="col-6 col-md-3">
         <label for="ciudad" class="form-label text-white">Ciudad</label>
         <select id="ciudad" class="form-select" (change)="cambiarCiudad($event)">
@@ -75,8 +74,8 @@
     <div class="row">
       @for (alojamiento of destacados(); track alojamiento.id) {
         <div class="col-12 col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 tarjeta animate__animated animate__fadeInUp"
-               [style.animation-delay]="($index * 0.15) + 's'">
+          <div class="card h-100 tarjeta animate__animated animate__fadeInUp "
+               [style.animation-delay]="($index * 0.15) + 's'"  type="button" (click)="openDetalle(alojamiento)">
 
             <div class="position-relative">
               <img [src]="alojamiento.imagenPrincipal" [alt]="alojamiento.nombre"

@@ -6,11 +6,14 @@ import { Filtrocomponent } from '../filtrocomponent/filtrocomponent';
 import { MatDialog } from '@angular/material/dialog';
 import { Reservacomponent } from '../reservacomponent/reservacomponent';
 import { Infoalojamientoscomponent } from '../infoalojamientoscomponent/infoalojamientoscomponent';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+// import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-maincomponent',
   standalone: true,
-  imports: [CurrencyPipe, Filtrocomponent],
+  imports: [CurrencyPipe, Filtrocomponent, FaIconComponent],
   styleUrl: './maincomponent.css',
   templateUrl: './maincomponent.html',
 })
@@ -20,6 +23,7 @@ export class Maincomponent implements OnInit {
   resenas = signal<ResenasModel[]>([]);
   alojamientos = signal<AlojamientosModel[]>([]);
   alojamientosOriginales = signal<AlojamientosModel[]>([]);
+  faStar = faStar;
 
   @ViewChild(Filtrocomponent) filtroComponent!: Filtrocomponent;
 
@@ -62,6 +66,7 @@ export class Maincomponent implements OnInit {
       autoFocus: 'dialog',
     });
   }
+  
   openInfo(alojamiento: AlojamientosModel, event: Event): void {
     event.stopPropagation();
     this.alojamientoservice.alojamientosSeleccionados.set([alojamiento]);

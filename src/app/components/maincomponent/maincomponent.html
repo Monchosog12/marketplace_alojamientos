@@ -18,11 +18,13 @@
             <img [src]="alojamiento.imagenPrincipal" [alt]="alojamiento.nombre"
               class="card-img-top img-fluid rounded-top">
             <div class="card-body d-flex flex-column contenedorInfo">
-              <span class="badge bg-light text-dark align-self-start mb-2">{{ alojamiento.tipo }}</span>
-              <h5 class="card-title">{{ alojamiento.nombre }}</h5>
+              <span class="badge bg-light text-dark align-self-start mb-2">{{ alojamiento.tipo }} </span>
+              <div class="flex-div">
+                <h5 class="card-title">{{ alojamiento.nombre }}</h5><span> {{ alojamiento.calificacion }} <fa-icon [icon]="faStar" class="text-warning"></fa-icon></span>
+              </div>
               <p class="card-text text-muted small">Ubicación: {{ alojamiento.ubicacion }}</p>
               <div class="d-flex justify-content-between align-items-center mt-auto">
-                <span class="fw-bold fs-5">{{ alojamiento.precioNoche | currency:'COP':'symbol':'1.0-0' }}</span>
+                <span class="fw-bold fs-5">{{ alojamiento.precioNoche | currency:'COP':'symbol-narrow':'1.0-0' }} <small>COP/noche</small></span>
               </div>
               <button (click)="openReservar(alojamiento, $event)" class="btn btn-dark w-100 mt-3">Reservar</button>
             </div>

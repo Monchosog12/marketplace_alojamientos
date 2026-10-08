@@ -9,16 +9,21 @@
         <div class="contenedorInfoAlojamientos">
             <div class="encabezado">
                 <h1>{{ alojamiento.nombre }}</h1>
-                <span class="calificacion"><fa-icon [icon]="faStar"></fa-icon> {{ alojamiento.calificacion }}</span>
+                <span class="calificacion"><fa-icon [icon]="faStar"></fa-icon> {{ alojamiento.calificacion }}</span> 
             </div>
             <p class="ubicacion">{{ alojamiento.ubicacion }}</p>
             <h2>Descripción</h2>
-            <p class="descripcion">{{ alojamiento.descripcion }}</p>
-
+            <p class="descripcion">{{ alojamiento.descripcion }} • {{ alojamiento.capacidad }} huéspedes • {{ alojamiento.habitaciones }} habitaciones • {{ alojamiento.camas }} camas • {{ alojamiento.banos }} baños • {{alojamiento.activo ? 'Activo' : 'Inactivo' }}</p>
             <h2>Servicios</h2>
             <ul class="servicios">
                 @for (servicio of alojamiento.servicios; track servicio) {
                 <li>{{ servicio }}</li>
+                }
+            </ul>
+            <h2>Reglas</h2>
+            <ul class="reglas">
+                @for (regla of alojamiento.reglas; track regla) {
+                <li>{{ regla }}</li>
                 }
             </ul>
             <button (click)="openReservar(alojamiento, $event)" type="button" class="btn btn-primary">Ir a reservar</button>
