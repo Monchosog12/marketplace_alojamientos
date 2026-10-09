@@ -1,6 +1,7 @@
 import { Component, inject, signal, TemplateRef, viewChild } from '@angular/core';
 import { Alojamientoservice } from '../../services/alojamientoservice';
 import { AlojamientosModel } from '../../models/alojamientos.model';
+import { ReservasModel } from '../../models/reservas.model';
 import { faStar, faX } from '@fortawesome/free-solid-svg-icons';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -40,7 +41,7 @@ export class Reservacomponent {
     this.alojamientosSeleccionados.set(seleccionados());
   }
 
-  openInfo(alojamiento: AlojamientosModel): void {
+  openInfo(alojamiento: AlojamientosModel, event: Event): void {
     this.alojamientoservice.alojamientosSeleccionados.set([alojamiento]);
     this.dialog.open(Infoalojamientoscomponent, {
       width: '500px',
@@ -71,9 +72,18 @@ export class Reservacomponent {
       this.reservaForm.markAllAsTouched();
       return;
     }
-    this.alojamientoservice.reservar(alojamiento.id, false).subscribe({
+    const { nombre, email, cedula, huespedes, fechas } = this.reservaForm.getRawValue();
+    const reserva: ReservasModel = {      
+      id: this.alojamientoservice.reservas().length + 1,
+      alojamientoId: alojamiento.id,
+      nombre: nombre ?? '',
+      correo: email ?? '',
+      cedula: cedula ?? '',
+      numHuespedes: huespedes ?? 1,
+      fecha: [fechas.start!.toISOString(), fechas.end!.toISOString()],
+    };
+    this.alojamientoservice.reservar(reserva).subscribe({
       next: () => {
-        this.alojamientoservice.reservas = this.alojamientoservice.reservas.filter(reserva => reserva.id !== alojamiento.id);
         this.openConfirmacion(this.reservaForm.controls.nombre.value, this.conteoNoches());
       },
       error: (err) => {

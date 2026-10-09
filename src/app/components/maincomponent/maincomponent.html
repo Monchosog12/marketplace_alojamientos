@@ -1,5 +1,5 @@
 <div class="img">
-  <img src="Introduccion.jpg">
+  <img src="assets/data/Introduccion.jpg">
 </div>
 
 <div class="container-fluid contenedorPrincipal">
@@ -17,6 +17,7 @@
     <div class="col-md-9">
       <div class="row">
         @for (alojamiento of alojamientos(); track $index) {
+        @if ($index < 10) {
         <div class="col-md-4 mb-4">
           <div type="button" (click)="openInfo(alojamiento, $event)" class="card h-100 shadow-sm contenedorAlojamientos">
             <img [src]="alojamiento.imagenPrincipal" [alt]="alojamiento.nombre"
@@ -34,6 +35,7 @@
             </div>
           </div>
         </div>
+        }
         }
       </div>
     </div>
