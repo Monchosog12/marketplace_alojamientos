@@ -30,12 +30,40 @@
                         @else { El correo es obligatorio }
                     </div>
                 </div>
-                <div class="mb-3">
-                    <input type="number" class="form-control" placeholder="Cedula: " formControlName="cedula"
-                        [class.is-invalid]="reservaForm.controls.cedula.invalid && reservaForm.controls.cedula.touched">
-                    <div class="invalid-feedback">La cédula es obligatoria</div>
-                </div>
-                <div class="mb-3">
+
+              <div class="mb-3">
+                <input
+                  type="text"
+                  inputmode="numeric"
+                  class="form-control"
+                  placeholder="Cédula:"
+                  formControlName="cedula"
+                  [class.is-invalid]="
+            reservaForm.controls.cedula.invalid &&
+            reservaForm.controls.cedula.touched
+        ">
+
+                @if (reservaForm.controls.cedula.hasError('required')) {
+                  <div class="invalid-feedback">
+                    La cédula es obligatoria
+                  </div>
+                }
+
+                @if (reservaForm.controls.cedula.hasError('minlength')) {
+                  <div class="invalid-feedback">
+                    La cédula debe tener mínimo 8 dígitos
+                  </div>
+                }
+
+                @if (reservaForm.controls.cedula.hasError('pattern')) {
+                  <div class="invalid-feedback">
+                    La cédula solo debe contener números
+                  </div>
+                }
+              </div>
+
+
+              <div class="mb-3">
                     <input type="number" class="form-control" placeholder="Numero de huespedes: " min="1"
                         formControlName="huespedes"
                         [class.is-invalid]="reservaForm.controls.huespedes.invalid && reservaForm.controls.huespedes.touched">
@@ -44,7 +72,7 @@
 
                 <mat-form-field id="inputFecha" appearance="fill">
                     <mat-label>Fecha de reserva</mat-label>
-                    <mat-date-range-input formGroupName="fechas" [rangePicker]="picker">
+                    <mat-date-range-input formGroupName="fechas" [rangePicker]="picker" [min]="fechaMinima">
                         <input matStartDate formControlName="start" placeholder="Entrada">
                         <input matEndDate formControlName="end" placeholder="Salida">
                     </mat-date-range-input>

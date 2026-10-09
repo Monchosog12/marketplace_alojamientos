@@ -9,11 +9,8 @@ import { Alojamientoservice } from '../../services/alojamientoservice';
   templateUrl: './misreservascomponent.html',
 })
 export class Misreservascomponent {
+  alojamientoService = inject(Alojamientoservice);
 
-  alojamientoService: Alojamientoservice = inject(Alojamientoservice);
-  reservas = signal<ReservasModel[]>(this.alojamientoService.leerReservas());
+  reservas = this.alojamientoService.reservas;
 
-  loadReservas() {
-    console.log(this.reservas());
-  }
 }

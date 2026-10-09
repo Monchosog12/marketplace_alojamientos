@@ -69,3 +69,42 @@ a{
 .nav-link.active::after{
     transform: scaleX(1);
 }
+
+.tira-anuncios {
+  width: 100%;
+  height: 40px;
+  background-color: #669bbc;
+  color: white;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.contenido-deslizante {
+  display: flex;
+  width: max-content;
+  animation: desplazar 25s linear infinite;
+}
+
+.grupo-textos {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.grupo-textos span {
+  white-space: nowrap;
+  padding-right: 60px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+@keyframes desplazar {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}

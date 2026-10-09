@@ -20,11 +20,16 @@ export class Reservacomponent {
   dialogRef = inject(MatDialogRef<Reservacomponent>);
   faStar = faStar;
   faX = faX;
+  fechaMinima: Date = new Date();
   dialogConfirmacion = viewChild.required<TemplateRef<any>>('dialogConfirmacion');
   readonly reservaForm = new FormGroup({
     nombre: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    cedula: new FormControl('', Validators.required),
+    cedula: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      Validators.pattern(/^[0-9]+$/)
+    ]),
     huespedes: new FormControl<number | null>(null, [Validators.required, Validators.min(1)]),
     fechas: new FormGroup({
       start: new FormControl<Date | null>(null, Validators.required),
@@ -73,7 +78,7 @@ export class Reservacomponent {
       return;
     }
     const { nombre, email, cedula, huespedes, fechas } = this.reservaForm.getRawValue();
-    const reserva: ReservasModel = {      
+    const reserva: ReservasModel = {
       id: this.alojamientoservice.reservas().length + 1,
       alojamientoId: alojamiento.id,
       nombre: nombre ?? '',

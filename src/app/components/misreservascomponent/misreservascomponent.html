@@ -1,86 +1,76 @@
-<button (click)="loadReservas()" >reservas</button>
-<div class="contenedor-reservas">
-  <div class="reserva-card">
-    <div class="row g-0">
-      <!-- Imagen -->
-      <div class="col-md-4">
-        <img
-          src="images/Introduccion.jpg"
-          alt="Apartamento frente al mar"
-          class="imagen-reserva"
-        >
-      </div>
-      <!-- Información -->
-      <div class="col-md-8">
-
-        <div class="contenido-reserva">
-
-          <div class="encabezado-card">
-
-            <div>
-              <span class="tipo-alojamiento">Apartamento</span>
-
-              <h4>Apartamento frente al mar</h4>
-
-              <p class="ubicacion">
-                Cartagena, Bolívar
-              </p>
-            </div>
-
-            <span class="estado confirmada">
-            Confirmada
-          </span>
-
-          </div>
-
-          <!-- Datos de la reserva -->
-          <div class="datos-reserva">
-
-            <div>
-              <small>Entrada</small>
-              <strong>15 Oct 2026</strong>
-            </div>
-
-            <div>
-              <small>Salida</small>
-              <strong>18 Oct 2026</strong>
-            </div>
-
-            <div>
-              <small>Huéspedes</small>
-              <strong>4 huéspedes</strong>
-            </div>
-
-          </div>
-
-          <!-- Pie -->
-          <div class="pie-reserva">
-
-            <div>
-              <small>Total</small>
-              <strong>$1.330.000</strong>
-            </div>
-
-            <div class="acciones">
-
-              <button class="btn btn-outline-dark">
-                Ver detalles
-              </button>
-
-              <button class="btn btn-reserva">
-                Cancelar
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
+<div class="contenedorReservas">
+  <div class="encabezadoReservas">
+    <h1>Mis reservas</h1>
+    <p>Consulta la información de tus alojamientos reservados.</p>
   </div>
 
+  @if (reservas().length === 0) {
+    <div class="sinReservas">
+      <h2>No tienes reservas registradas</h2>
+      <p>Cuando confirmes una reserva, aparecerá aquí.</p>
+    </div>
+  } @else {
+    <div class="listaReservas">
+      @for (reserva of reservas(); track reserva.id) {
+        <article class="tarjetaReserva">
+
+          <div class="encabezadoTarjeta">
+            <div>
+              <span class="etiquetaReserva">RESERVA #{{ reserva.id }}</span>
+              <h2>Información de la reserva</h2>
+            </div>
+
+            <span class="estadoReserva">Confirmada</span>
+          </div>
+
+          <div class="informacionReserva">
+            <h3>Datos del huésped</h3>
+
+            <div class="datoReserva">
+              <span>Nombre completo</span>
+              <strong>{{ reserva.nombre }}</strong>
+            </div>
+
+            <div class="datoReserva">
+              <span>Correo electrónico</span>
+              <strong>{{ reserva.correo }}</strong>
+            </div>
+
+            <div class="datoReserva">
+              <span>Cédula</span>
+              <strong>{{ reserva.cedula }}</strong>
+            </div>
+
+            <div class="datoReserva">
+              <span>Número de huéspedes</span>
+              <strong>{{ reserva.numHuespedes }}</strong>
+            </div>
+          </div>
+
+          <div class="fechasReserva">
+            <h3>Fechas de la estadía</h3>
+
+            <div class="contenedorFechas">
+              <div class="fecha">
+                <span>Entrada</span>
+                <strong>{{ reserva.fecha[0] | date:'dd/MM/yyyy' }}</strong>
+              </div>
+
+              <div class="separadorFechas"></div>
+
+              <div class="fecha">
+                <span>Salida</span>
+                <strong>{{ reserva.fecha[1] | date:'dd/MM/yyyy' }}</strong>
+              </div>
+            </div>
+          </div>
+          <div class="boton">
+          <button type="button" class="btn-solid theme-info">Ver detalles</button>
+          <button type="button" class="btn-solid theme-danger">Cancelar</button>
+          </div>
+        </article>
+      }
+    </div>
+  }
 </div>
+

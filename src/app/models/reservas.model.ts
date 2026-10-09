@@ -9,4 +9,5 @@ export interface ReservasModel{
         fechaInicio: string,
         fechaFin: string,
     ]
+
 }
