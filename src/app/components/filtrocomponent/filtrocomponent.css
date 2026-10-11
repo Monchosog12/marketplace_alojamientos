@@ -63,6 +63,19 @@
   color: white;
 }
 
+.filtro-tipo h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: rgb(51, 51, 51);
+}
+
+.filtro-cantidad-huesped {
+  width: 100%;
+  accent-color: rgb(17, 17, 17);
+  cursor: pointer;
+}
+
 .slider-container {
   margin-bottom: 8px;
 }
@@ -111,7 +124,8 @@
   border-color: white;
 }
 
-.ciudades-lista {
+.ciudades-lista,
+.tipos-lista {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -133,7 +147,8 @@
   cursor: pointer;
 }
 
-.ciudad-nombre {
+.ciudad-nombre,
+.tipo-nombre {
   flex-grow: 1;
 }
 

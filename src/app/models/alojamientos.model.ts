@@ -33,4 +33,5 @@ export interface FilterState {
   priceRange: [number, number];
   selectedCities: string[];
   selectedTypes: string[];
+  huespedRange: [number, number];
 }
