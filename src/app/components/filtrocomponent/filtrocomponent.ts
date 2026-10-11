@@ -1,6 +1,6 @@
-import {Component, signal, computed, input, output, effect} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {AlojamientosModel, FilterState} from '../../models/alojamientos.model';
+import { Component, signal, computed, input, output, effect } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AlojamientosModel, FilterState } from '../../models/alojamientos.model';
 
 @Component({
   selector: 'app-filtrocomponent',
@@ -20,6 +20,7 @@ export class Filtrocomponent {
   }
 
   private readonly filtrosIniciales: FilterState = {
+    huespedRange: [1, 10],
     priceRange: [0, 800000],
     selectedCities: [],
     selectedTypes: []
@@ -39,15 +40,24 @@ export class Filtrocomponent {
     const filtrosActuales = this.filtros();
     return this.alojamientosOriginales().filter(item => {
       if (!item.activo) return false;
+
       if (item.precioNoche < filtrosActuales.priceRange[0] || item.precioNoche > filtrosActuales.priceRange[1]) {
         return false;
       }
+
       if (filtrosActuales.selectedCities.length > 0 && !filtrosActuales.selectedCities.includes(item.ciudad)) {
         return false;
       }
+
       if (filtrosActuales.selectedTypes.length > 0 && !filtrosActuales.selectedTypes.includes(item.tipo)) {
         return false;
       }
+
+      const capacidadMaxima = item.capacidad ?? (item as any).huespedes ?? 0;
+      if (capacidadMaxima < filtrosActuales.huespedRange[0] || capacidadMaxima > filtrosActuales.huespedRange[1]) {
+        return false;
+      }
+
       return true;
     });
   });
@@ -60,19 +70,26 @@ export class Filtrocomponent {
           item.precioNoche <= filtrosActuales.priceRange[1];
         return item.activo && coincidePrecio && item.ciudad === ciudad;
       }).length;
-      return {city: ciudad, count};
+      return { city: ciudad, count };
     });
   });
 
   alternarCiudad(ciudad: string) {
-    this.filtros.update(actual => {
-      const copia = Object.assign({}, actual);
+    this.filtros.update(actual => ({
+      ...actual,
+      selectedCities: actual.selectedCities.includes(ciudad)
+        ? actual.selectedCities.filter(c => c !== ciudad)
+        : [...actual.selectedCities, ciudad]
+    }));
+  }
 
-      copia.selectedCities = copia.selectedCities.includes(ciudad)
-        ? copia.selectedCities.filter(c => c !== ciudad)
-        : [...copia.selectedCities, ciudad];
-      return copia;
-    });
+  alternarTipo(tipo: string) {
+    this.filtros.update(actual => ({
+      ...actual,
+      selectedTypes: actual.selectedTypes.includes(tipo)
+        ? actual.selectedTypes.filter(t => t !== tipo)
+        : [...actual.selectedTypes, tipo]
+    }));
   }
 
   limpiarFiltro = () => {
@@ -87,16 +104,26 @@ export class Filtrocomponent {
     }));
   }
 
+  cantHuspedes(event: Event) {
+    const valor = Number((event.target as HTMLInputElement).value);
+    this.filtros.update(actual => ({
+      ...actual,
+      huespedRange: [actual.huespedRange[0], valor]
+    }));
+  }
+
   seccionesAbiertas = signal({
     categories: true,
     price: true,
+    types: true
   });
 
   conteoFiltros = computed(() => {
     const actual = this.filtros();
     return actual.selectedCities.length +
       actual.selectedTypes.length +
-      (actual.priceRange[0] > 0 || actual.priceRange[1] < 800000 ? 1 : 0);
+      (actual.priceRange[0] > 0 || actual.priceRange[1] < 800000 ? 1 : 0) +
+      (actual.huespedRange[0] > 1 || actual.huespedRange[1] < 10 ? 1 : 0);
   });
 
   mostrarContenido = signal(false);
