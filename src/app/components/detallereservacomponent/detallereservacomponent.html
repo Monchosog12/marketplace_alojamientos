@@ -1,0 +1,59 @@
+<div class="p-4">
+    @for (reserva of reservaSeleccionada(); track reserva.id) {
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+            <small class="text-muted">RESERVA #{{ reserva.id }}</small>
+            <h4 class="mb-0">Detalle de la reserva</h4>
+        </div>
+        <span class="badge bg-success">Confirmada</span>
+    </div>
+
+    <h6 class="text-muted mt-3">Datos del huésped</h6>
+    <ul class="list-group mb-3">
+        <li class="list-group-item d-flex justify-content-between">
+            <span>Nombre completo</span>
+            <strong>{{ reserva.nombre }}</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+            <span>Correo electrónico</span>
+            <strong>{{ reserva.correo }}</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+            <span>Cédula</span>
+            <strong>{{ reserva.cedula }}</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+            <span>Número de huéspedes</span>
+            <strong>{{ reserva.numHuespedes }}</strong>
+        </li>
+    </ul>
+
+    <h6 class="text-muted">Fechas de la estadía</h6>
+    <ul class="list-group mb-4">
+        <li class="list-group-item d-flex justify-content-between">
+            <span>Entrada</span>
+            <strong>{{ reserva.fecha[0] | date:'dd/MM/yyyy' }}</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+            <span>Salida</span>
+            <strong>{{ reserva.fecha[1] | date:'dd/MM/yyyy' }}</strong>
+        </li>
+    </ul>
+
+    <h6 class="text-muted">Pago</h6>
+    <ul class="list-group mb-4">
+        <li class="list-group-item d-flex justify-content-between">
+            <span>Total de la reserva</span>
+            @if (reserva.precio) {
+            <strong>{{ reserva.precio | currency:'COP':'symbol-narrow':'1.0-0' }}</strong>
+            } @else {
+            <strong class="text-muted">No disponible</strong>
+            }
+        </li>
+    </ul>
+
+    <button type="button" class="btn btn-dark w-100" mat-dialog-close>Cerrar</button>
+    } @empty {
+    <p class="text-muted text-center">No se encontró la reserva seleccionada.</p>
+    }
+</div>

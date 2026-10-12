@@ -65,8 +65,8 @@
             </div>
           </div>
           <div class="boton">
-          <button type="button" class="btn-solid theme-info">Ver detalles</button>
-          <button type="button" class="btn-solid theme-danger">Cancelar</button>
+          <button type="button" class="btn-solid theme-info" (click)="mostrarDetalleReserva(reserva, $event)">Ver detalles</button>
+          <button type="button" class="btn-solid theme-danger" (click)="cancelarReserva(reserva)">Cancelar</button>
           </div>
         </article>
       }

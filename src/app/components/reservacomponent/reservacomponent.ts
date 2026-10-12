@@ -1,8 +1,3 @@
-import { Component, inject, signal } from '@angular/core';
-import { Alojamientoservice } from '../../services/alojamientoservice';
-import { AlojamientosModel } from '../../models/alojamientos.model';
-import { faStar, faX } from '@fortawesome/free-solid-svg-icons';
-import { FormControl, FormGroup } from '@angular/forms';
 import { Component, inject, signal, TemplateRef, viewChild } from '@angular/core';
 import { Alojamientoservice } from '../../services/alojamientoservice';
 import { AlojamientosModel } from '../../models/alojamientos.model';
@@ -16,7 +11,6 @@ import { Infoalojamientoscomponent } from '../infoalojamientoscomponent/infoaloj
   selector: 'app-reservacomponent',
   standalone: false,
   styleUrl: './reservacomponent.css',
-  templateUrl: './reservacomponent.html'
   templateUrl: './reservacomponent.html',
 })
 export class Reservacomponent {
@@ -26,16 +20,6 @@ export class Reservacomponent {
   dialogRef = inject(MatDialogRef<Reservacomponent>);
   faStar = faStar;
   faX = faX;
-  readonly range = new FormGroup({
-    start: new FormControl<Date | null>(null),
-    end: new FormControl<Date | null>(null)
-  });
-  readonly huespedes = new FormControl(1);
-  readonly reservaForm = new FormGroup({
-    nombre: new FormControl(''),
-    email: new FormControl(''),
-    fecha: new FormControl(''),
-    hora: new FormControl('')
   fechaMinima: Date = new Date();
   dialogConfirmacion = viewChild.required<TemplateRef<any>>('dialogConfirmacion');
   readonly reservaForm = new FormGroup({
@@ -66,33 +50,6 @@ export class Reservacomponent {
     this.alojamientoservice.alojamientosSeleccionados.set([alojamiento]);
     this.dialog.open(Infoalojamientoscomponent, {
       width: '500px',
-      height: '600px'
-    });
-  }
-
-  nochesReservadas(): number {
-    const inicio = this.range.controls.start.value;
-    const fin = this.range.controls.end.value;
-    if (!inicio || !fin || fin <= inicio) return 0;
-
-    const inicioDia = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate()).getTime();
-    const finDia = new Date(fin.getFullYear(), fin.getMonth(), fin.getDate()).getTime();
-    return Math.round((finDia - inicioDia) / 86_400_000);
-  }
-
-  precioTotal(alojamiento: AlojamientosModel): number {
-    const cantidadHuespedes = Math.max(1, Number(this.huespedes.value) || 1);
-    return alojamiento.precioNoche * this.nochesReservadas() * cantidadHuespedes;
-  }
-
-  esCantidadHuespedesInvalida(alojamiento: AlojamientosModel): boolean {
-    const limite = alojamiento.capacidad || 0;
-    const ingresados = Number(this.huespedes.value) || 0;
-    return ingresados > limite;
-  }
-
-  closeReserva(): void {
-    this.dialogRef.close();
       height: '600px',
       autoFocus: 'dialog',
     });
@@ -106,28 +63,43 @@ export class Reservacomponent {
     this.dialog.open(this.dialogConfirmacion(), { data: { nombre, noches } }).afterClosed().subscribe(() => this.closeReserva());
   }
 
-  conteoNoches(): number{
-    const { fechas } = this.reservaForm.getRawValue();
-    if (!fechas.start || !fechas.end) {
-      return 0;
-    }
-    const noches =  Math.ceil((fechas.end.getTime() - fechas.start.getTime()) / (1000 * 60 * 60 * 24));
-    return noches;
+  conteoNoches(): number {
+    const { start: inicio, end: fin } = this.reservaForm.controls.fechas.getRawValue();
+    if (!inicio || !fin || fin <= inicio) return 0;
+
+    const inicioDia = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate()).getTime();
+    const finDia = new Date(fin.getFullYear(), fin.getMonth(), fin.getDate()).getTime();
+    return Math.round((finDia - inicioDia) / 86_400_000);
+  }
+
+  cantidadHuespedes(): number {
+    return Math.max(1, Number(this.reservaForm.controls.huespedes.value) || 1);
+  }
+
+  precioTotal(alojamiento: AlojamientosModel): number {
+    return alojamiento.precioNoche * this.conteoNoches() * this.cantidadHuespedes();
+  }
+
+  esCantidadHuespedesInvalida(alojamiento: AlojamientosModel): boolean {
+    const limite = alojamiento.capacidad || 0;
+    const ingresados = Number(this.reservaForm.controls.huespedes.value) || 0;
+    return ingresados > limite;
   }
 
   confirmarReserva(alojamiento: AlojamientosModel) {
-    if (this.reservaForm.invalid) {
+    if (this.reservaForm.invalid || this.esCantidadHuespedesInvalida(alojamiento) || this.conteoNoches() === 0) {
       this.reservaForm.markAllAsTouched();
       return;
     }
     const { nombre, email, cedula, huespedes, fechas } = this.reservaForm.getRawValue();
     const reserva: ReservasModel = {
-      id: this.alojamientoservice.reservas().length + 1,
+      id: Date.now(),
       alojamientoId: alojamiento.id,
       nombre: nombre ?? '',
       correo: email ?? '',
       cedula: cedula ?? '',
       numHuespedes: huespedes ?? 1,
+      precio: this.precioTotal(alojamiento),
       fecha: [fechas.start!.toISOString(), fechas.end!.toISOString()],
     };
     this.alojamientoservice.reservar(reserva).subscribe({
