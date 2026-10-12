@@ -9,6 +9,7 @@ Proyecto de curso de **Desarrollo de Sistemas de Información 3**
 | --------------- | -------------------- |
 | Simón Farfan  | sfarfan@unbosque.edu.co |
 | Julio Rondón  | jrondonc@unbosque.edu.co |
+| Nicolas Mahecha  | nmahecha@unbosque.edu.co |
 
 Repositorio: _URL del repositorio_
 
