@@ -18,6 +18,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { provideToastr } from 'ngx-toastr';
 import { Infoalojamientoscomponent } from './components/infoalojamientoscomponent/infoalojamientoscomponent';
+import {Resenascomponent} from './components/resenascomponent/resenacomponent';
 import { Detallereservacomponent } from './components/detallereservacomponent/detallereservacomponent';
 
 @NgModule({
@@ -27,6 +28,7 @@ import { Detallereservacomponent } from './components/detallereservacomponent/de
     Destacadoscomponent,
     Misreservascomponent,
     Reservacomponent,
+    Resenascomponent,
     Infoalojamientoscomponent,
     Detallereservacomponent,
   ],
