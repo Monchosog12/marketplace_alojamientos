@@ -12,35 +12,35 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './infoalojamientoscomponent.html',
 })
 export class Infoalojamientoscomponent {
-  
+
   alojamientoService = inject(Alojamientoservice);
   alojamientos = signal<AlojamientosModel[]>([]);
   faStar = faStar;
   fax = faX;
+
   ngOnInit() {
     this.loadSeleccionados();
   }
 
   constructor(public dialog: MatDialog) { }
 
-
-  loadSeleccionados(){
+  loadSeleccionados() {
     const seleccionados = this.alojamientoService.alojamientosSeleccionados
     this.alojamientos.set(seleccionados());
   }
 
   openReservar(alojamiento: AlojamientosModel, event: Event): void {
-      event.stopPropagation();
-      this.alojamientoService.alojamientosSeleccionados.set([alojamiento]);
-      this.dialog.open(Reservacomponent, {
-        width: '500px',
-        height: '600px',
-        autoFocus: 'dialog',
-      });
-    }
+    event.stopPropagation();
+    this.alojamientoService.alojamientosSeleccionados.set([alojamiento]);
+    this.dialog.open(Reservacomponent, {
+      width: '500px',
+      height: '600px',
+      autoFocus: 'dialog',
+    });
+  }
 
-    closeReserva() {
-      this.dialog.closeAll();
-    }
+  closeReserva() {
+    this.dialog.closeAll();
+  }
 
 }

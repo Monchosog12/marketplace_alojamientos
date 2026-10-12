@@ -3,6 +3,8 @@ import { inject, Injectable, signal } from '@angular/core';
 import { catchError, map, Observable, of, throwError } from 'rxjs';
 import { AlojamientosModel, ResenasModel } from '../models/alojamientos.model';
 import { ReservasModel } from '../models/reservas.model';
+import { MatDialog } from '@angular/material/dialog';
+
 
 interface InfoAlojamientos {
     alojamientos: AlojamientosModel[];
@@ -16,8 +18,12 @@ export class Alojamientoservice {
     private cliente: HttpClient = inject(HttpClient);
     private readonly URL_BASE: string = 'assets/data/alojamientos.json';
     alojamientosSeleccionados = signal<AlojamientosModel[]>([]);
+    reservasSeleccionadas = signal<ReservasModel[]>([]);
     private readonly KEY_RESERVAS: string = 'alojamientos/reservas';
     reservas = signal<ReservasModel[]>(this.leerReservas());
+
+
+    constructor(public dialogo: MatDialog) { }
 
 
     getAlojamientos(): Observable<AlojamientosModel[]> {
@@ -62,8 +68,22 @@ export class Alojamientoservice {
         }
     }
 
-    localStorage(){
+    localStorage() {
         console.log("Local Storage" + JSON.stringify(localStorage) + "\n");
         localStorage.clear();
     }
+
+    cancelarReserva(id: number): Observable<ReservasModel[]> {
+        const reserva = this.reservas().find(reserva => reserva.id === id);
+        if (!reserva) {
+            return throwError(() => new Error(`No se encontró la reserva ${id}`));
+        }
+
+        const nuevasReservas = this.reservas().filter(reserva => reserva.id !== id);
+        localStorage.setItem(this.KEY_RESERVAS, JSON.stringify(nuevasReservas));
+        this.reservas.set(nuevasReservas);
+        return of(nuevasReservas);
+    }
+
+
 }
