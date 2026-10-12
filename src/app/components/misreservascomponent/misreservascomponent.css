@@ -1,0 +1,178 @@
+
+.contenedorReservas {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  color: #003049;
+}
+
+.encabezadoReservas {
+  margin-bottom: 30px;
+}
+
+.encabezadoReservas h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.encabezadoReservas p {
+  color: #64748b;
+  margin: 0;
+}
+
+.listaReservas {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.tarjetaReserva {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 48, 73, 0.07);
+}
+
+.encabezadoTarjeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.etiquetaReserva {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #669bbc;
+}
+
+.encabezadoTarjeta h2 {
+  font-size: 1.3rem;
+  margin: 8px 0 0;
+}
+
+.estadoReserva {
+  background: #dcfce7;
+  color: #166534;
+  border-radius: 20px;
+  padding: 8px 13px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.informacionReserva,
+.fechasReserva {
+  padding-top: 22px;
+}
+
+.informacionReserva h3,
+.fechasReserva h3 {
+  font-size: 1.05rem;
+  margin-bottom: 18px;
+}
+
+.datoReserva {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.datoReserva span,
+.fecha span {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.datoReserva strong {
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.contenedorFechas {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.fecha {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.separadorFechas {
+  width: 35px;
+  height: 2px;
+  background: #669bbc;
+}
+
+.sinReservas {
+  text-align: center;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 16px;
+  padding: 50px 20px;
+}
+
+.sinReservas h2 {
+  font-size: 1.3rem;
+}
+
+.sinReservas p {
+  color: #64748b;
+}
+
+@media (max-width: 600px) {
+  .contenedorReservas {
+    margin: 20px auto;
+    padding: 12px;
+  }
+
+  .tarjetaReserva {
+    padding: 18px;
+  }
+
+  .encabezadoTarjeta {
+    align-items: flex-start;
+  }
+
+  .encabezadoTarjeta h2 {
+    font-size: 1.1rem;
+  }
+
+  .datoReserva {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .datoReserva strong {
+    text-align: left;
+  }
+
+  .contenedorFechas {
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .separadorFechas {
+    width: 18px;
+  }
+}
+.boton {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 25px;
+}

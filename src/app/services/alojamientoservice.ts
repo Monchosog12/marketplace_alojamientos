@@ -1,52 +1,69 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { catchError, map, Observable, of, shareReplay } from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
+import { catchError, map, Observable, of, throwError } from 'rxjs';
 import { AlojamientosModel, ResenasModel } from '../models/alojamientos.model';
+import { ReservasModel } from '../models/reservas.model';
 
-interface DataFile {
+interface InfoAlojamientos {
     alojamientos: AlojamientosModel[];
     resenas: ResenasModel[];
 }
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class Alojamientoservice {
     private cliente: HttpClient = inject(HttpClient);
     private readonly URL_BASE: string = 'assets/data/alojamientos.json';
+    alojamientosSeleccionados = signal<AlojamientosModel[]>([]);
+    private readonly KEY_RESERVAS: string = 'alojamientos/reservas';
+    reservas = signal<ReservasModel[]>(this.leerReservas());
 
-    private readonly data: Observable<DataFile> =
-    this.cliente.get<DataFile>(this.URL_BASE).pipe(
-        catchError((error) => {
-            console.error('Error al cargar alojamientos.json:', error);
-            return of<DataFile>({ alojamientos: [], resenas: [] });
-        }),
-        shareReplay(1),
-    );
 
     getAlojamientos(): Observable<AlojamientosModel[]> {
-        return this.data.pipe(map((data) => data.alojamientos ?? []));
+        return this.cliente.get<InfoAlojamientos>(this.URL_BASE).pipe(
+            map((data) => data.alojamientos ?? []),
+            catchError((error) => {
+                console.error('Error al cargar alojamientos.json:', error);
+                return of<AlojamientosModel[]>([]);
+            }),
+        );
     }
 
     getResenas(): Observable<ResenasModel[]> {
-        return this.data.pipe(map((data) => data.resenas ?? []));
+        return this.cliente.get<InfoAlojamientos>(this.URL_BASE).pipe(
+            map((data) => data.resenas ?? []),
+            catchError((error) => {
+                console.error('Error al cargar alojamientos.json:', error);
+                return of<ResenasModel[]>([]);
+            }),
+        );
     }
 
-    // Los favoritos viven en el navegador (localStorage), no hay backend que los guarde.
-    getFavoritos(): number[] {
+    reservar(reserva: ReservasModel): Observable<ReservasModel[]> {
+        const alojamiento = this.alojamientosSeleccionados().find(alojamiento => alojamiento.id === reserva.alojamientoId);
+        if (!alojamiento) {
+            return throwError(() => new Error(`No se encontró el alojamiento ${reserva.alojamientoId}`));
+        }
+        alojamiento.activo = false;
+
+        const nuevasReservas = [...this.reservas(), reserva];
+        localStorage.setItem(this.KEY_RESERVAS, JSON.stringify(nuevasReservas));
+        this.reservas.set(nuevasReservas);
+        return of(nuevasReservas);
+    }
+
+    leerReservas(): ReservasModel[] {
         try {
-            const guardados = localStorage.getItem('/favoritos');
-            return guardados ? (JSON.parse(guardados) as number[]) : [];
+            const guardadas = JSON.parse(localStorage.getItem(this.KEY_RESERVAS) ?? '[]');
+            return Array.isArray(guardadas) ? guardadas : [];
         } catch {
             return [];
         }
-
     }
-    guardarFavoritos(ids: number[]): void {
-        try {
-            localStorage.setItem("/favoritos", JSON.stringify(ids));
-        } catch {
-            // Sin almacenamiento disponible los favoritos duran solo la sesión actual.
-        }
+
+    localStorage(){
+        console.log("Local Storage" + JSON.stringify(localStorage) + "\n");
+        localStorage.clear();
     }
 }
