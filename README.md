@@ -18,7 +18,7 @@ Repositorio: _URL del repositorio_
 - **Angular 22** 
 - **Angular Router** 
 - **Bootstrap** 
-- 
+
 
 ## Requisitos para ejecutar la aplicación
 
