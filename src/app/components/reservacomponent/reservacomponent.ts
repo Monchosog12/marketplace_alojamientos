@@ -1,3 +1,8 @@
+import { Component, inject, signal } from '@angular/core';
+import { Alojamientoservice } from '../../services/alojamientoservice';
+import { AlojamientosModel } from '../../models/alojamientos.model';
+import { faStar, faX } from '@fortawesome/free-solid-svg-icons';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Component, inject, signal, TemplateRef, viewChild } from '@angular/core';
 import { Alojamientoservice } from '../../services/alojamientoservice';
 import { AlojamientosModel } from '../../models/alojamientos.model';
@@ -11,6 +16,7 @@ import { Infoalojamientoscomponent } from '../infoalojamientoscomponent/infoaloj
   selector: 'app-reservacomponent',
   standalone: false,
   styleUrl: './reservacomponent.css',
+  templateUrl: './reservacomponent.html'
   templateUrl: './reservacomponent.html',
 })
 export class Reservacomponent {
@@ -20,6 +26,16 @@ export class Reservacomponent {
   dialogRef = inject(MatDialogRef<Reservacomponent>);
   faStar = faStar;
   faX = faX;
+  readonly range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null)
+  });
+  readonly huespedes = new FormControl(1);
+  readonly reservaForm = new FormGroup({
+    nombre: new FormControl(''),
+    email: new FormControl(''),
+    fecha: new FormControl(''),
+    hora: new FormControl('')
   fechaMinima: Date = new Date();
   dialogConfirmacion = viewChild.required<TemplateRef<any>>('dialogConfirmacion');
   readonly reservaForm = new FormGroup({
@@ -50,6 +66,33 @@ export class Reservacomponent {
     this.alojamientoservice.alojamientosSeleccionados.set([alojamiento]);
     this.dialog.open(Infoalojamientoscomponent, {
       width: '500px',
+      height: '600px'
+    });
+  }
+
+  nochesReservadas(): number {
+    const inicio = this.range.controls.start.value;
+    const fin = this.range.controls.end.value;
+    if (!inicio || !fin || fin <= inicio) return 0;
+
+    const inicioDia = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate()).getTime();
+    const finDia = new Date(fin.getFullYear(), fin.getMonth(), fin.getDate()).getTime();
+    return Math.round((finDia - inicioDia) / 86_400_000);
+  }
+
+  precioTotal(alojamiento: AlojamientosModel): number {
+    const cantidadHuespedes = Math.max(1, Number(this.huespedes.value) || 1);
+    return alojamiento.precioNoche * this.nochesReservadas() * cantidadHuespedes;
+  }
+
+  esCantidadHuespedesInvalida(alojamiento: AlojamientosModel): boolean {
+    const limite = alojamiento.capacidad || 0;
+    const ingresados = Number(this.huespedes.value) || 0;
+    return ingresados > limite;
+  }
+
+  closeReserva(): void {
+    this.dialogRef.close();
       height: '600px',
       autoFocus: 'dialog',
     });
