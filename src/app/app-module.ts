@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { Infoalojamientoscomponent } from './components/infoalojamientoscomponent/infoalojamientoscomponent';
+import {Resenascomponent} from './components/resenascomponent/resenacomponent';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { Infoalojamientoscomponent } from './components/infoalojamientoscomponen
     Destacadoscomponent,
     Misreservascomponent,
     Reservacomponent,
+    Resenascomponent,
     Infoalojamientoscomponent,
   ],
   imports: [

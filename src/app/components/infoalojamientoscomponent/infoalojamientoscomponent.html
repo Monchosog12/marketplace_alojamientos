@@ -9,7 +9,7 @@
         <div class="contenedorInfoAlojamientos">
             <div class="encabezado">
                 <h1>{{ alojamiento.nombre }}</h1>
-                <span class="calificacion"><fa-icon [icon]="faStar"></fa-icon> {{ alojamiento.calificacion }}</span> 
+                <span class="calificacion"><fa-icon [icon]="faStar"></fa-icon> {{ alojamiento.calificacion }}</span>
             </div>
             <p class="ubicacion">{{ alojamiento.ubicacion }}</p>
             <h2>Descripción</h2>
@@ -26,6 +26,7 @@
                 <li>{{ regla }}</li>
                 }
             </ul>
+          <app-resenascomponent [alojamientoId]="alojamiento.id"></app-resenascomponent>
             <button (click)="openReservar(alojamiento, $event)" type="button" class="btn btn-primary">Ir a reservar</button>
         </div>
     </div>
