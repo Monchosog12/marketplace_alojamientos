@@ -5,9 +5,9 @@ export interface ReservasModel{
     correo: string,
     cedula: string,
     numHuespedes: number,
+    precio: number,
     fecha: [
         fechaInicio: string,
         fechaFin: string,
     ]
-
 }

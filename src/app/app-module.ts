@@ -16,7 +16,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { provideToastr } from 'ngx-toastr';
 import { Infoalojamientoscomponent } from './components/infoalojamientoscomponent/infoalojamientoscomponent';
+import { Detallereservacomponent } from './components/detallereservacomponent/detallereservacomponent';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { Infoalojamientoscomponent } from './components/infoalojamientoscomponen
     Misreservascomponent,
     Reservacomponent,
     Infoalojamientoscomponent,
+    Detallereservacomponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +47,11 @@ import { Infoalojamientoscomponent } from './components/infoalojamientoscomponen
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(),
     provideNativeDateAdapter(),
+    provideToastr({
+      timeOut: 3000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
   ],
   bootstrap: [App],
   exports: [],

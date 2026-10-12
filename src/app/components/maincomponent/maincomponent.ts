@@ -8,7 +8,6 @@ import { Reservacomponent } from '../reservacomponent/reservacomponent';
 import { Infoalojamientoscomponent } from '../infoalojamientoscomponent/infoalojamientoscomponent';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-// import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-maincomponent',

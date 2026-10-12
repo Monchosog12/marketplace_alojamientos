@@ -1,175 +1,4 @@
 :host {
-  display: block;
-  height: 100%;
-  overflow-y: auto;
-  background-color: #252422;
-}
-
-.contenedorPrincipal {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  width: 100%;
-  min-height: 100%;
-  padding: 20px;
-  background-color: #252422;
-}
-
-.contenedorSecundario {
-  width: 100%;
-  max-width: 800px;
-  background-color: whitesmoke;
-  border: 2px solid #eb5e28;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-}
-
-.contenedorImagen {
-  position: relative;
-  overflow: hidden;
-}
-
-.contenedorImagen img {
-  display: block;
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  transition: transform 0.3s ease-in-out;
-}
-
-.contenedorSecundario:hover .contenedorImagen img {
-  transform: scale(1.03);
-}
-
-.etiquetaPrecio {
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
-  padding: 6px 14px;
-  border-radius: 20px;
-  background-color: #eb5e28;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.etiquetaPrecio small {
-  font-size: 12px;
-  font-weight: normal;
-}
-
-.contenedorReserva {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 20px 25px 25px;
-  color: #252422;
-}
-
-.encabezado {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
-
-.contenedorReserva h1 {
-  margin: 0;
-  font-size: 26px;
-}
-
-.calificacion {
-  flex-shrink: 0;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.calificacion fa-icon {
-  color: #eb5e28;
-}
-
-.ubicacion {
-  margin: 0;
-  color: #6c6a66;
-  font-size: 14px;
-}
-
-.contenedorReserva h2 {
-  margin: 12px 0 8px;
-  padding-bottom: 4px;
-  border-bottom: 2px solid #eb5e28;
-  font-size: 16px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.contenedorReserva form {
-  display: flex;
-  flex-direction: column;
-}
-
-#inputFecha {
-  width: 100%;
-}
-
-.resumenPrecio {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-top: 14px;
-  padding: 12px 14px;
-  border-radius: 8px;
-  background: #f1efeb;
-}
-
-.resumenPrecio p,
-.resumenPrecio strong {
-  margin: 0;
-}
-
-.resumenPrecio strong {
-  font-size: 18px;
-}
-
-.divBotones {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.btnClose {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: #eb5e28;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.btnClose:hover {
-  background-color: #252422;
-}
-
-@media (max-width: 600px) {
-  .contenedorPrincipal {
-    padding: 20px 16px;
-  }
-
-  .contenedorReserva h1 {
-    font-size: 20px;
-  }
     display: block;
     height: 100%;
     overflow-y: auto;
@@ -312,6 +141,25 @@
 
 .btnClose:hover {
     background-color: #252422;
+}
+
+.resumenPrecio {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: #f1efeb;
+}
+
+.resumenPrecio p,
+.resumenPrecio strong {
+    margin: 0;
+}
+
+.resumenPrecio strong {
+    font-size: 18px;
 }
 
 @media (max-width: 600px) {
