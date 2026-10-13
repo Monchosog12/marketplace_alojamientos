@@ -7,8 +7,8 @@ import { Alojamientoservice } from '../../services/alojamientoservice';
 @Component({
   selector: 'app-resenascomponent',
   standalone: false,
-  templateUrl: './resenascomponent.html',
-  styleUrl: './resenascomponent.css',
+  templateUrl: './resenacomponent.html',
+  styleUrl: './resenacomponent.css',
 })
 export class Resenascomponent {
 
